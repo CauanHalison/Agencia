@@ -1,7 +1,7 @@
 public class AgenciaInteligencia{
     
     private String nome;
-    private String chave = "ZYXWVUTSRQPONMLKJIHGFEDCBA";
+    private String chave;
     private String alfabeto = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     private Pais pais;
 
@@ -18,10 +18,9 @@ public class AgenciaInteligencia{
     public Pais getPais() { return pais; }
 
     public void setNome(String nome) { this.nome = nome; }
-    public void setChave(String chave, Agente agente) {
-        if(agente.getNivelHierarquico().getNivelHierarquico() == "Comando" && agente.getPais() == pais && chave.length() == 26){
-            this.chave = chave; 
-        }    
+    public void setChave(String chave, Agente agente) 
+    {
+        this.chave = chave; 
     }
     public void setAlfabeto(String alfabeto) { this.alfabeto = alfabeto; }
     public void setPais(Pais pais) { this.pais = pais; }
@@ -50,7 +49,10 @@ public class AgenciaInteligencia{
                 if(posicao != count)
                     count++;
                 else
+                {
                     mensagem_cifrada += (this.chave).charAt(count);
+                    break;
+                }
             }
         }
 
@@ -58,8 +60,36 @@ public class AgenciaInteligencia{
     }
 
     
-    /*public Mensagem decifrarMensagem(Mensagem mensagem, Agente agente)
+    public Mensagem decifrarMensagem(Mensagem mensagem, Agente agente)
     {
-        
-    }*/
+        String mensagem_str =  mensagem.getTexto();
+        String mensagem_decifrada = "";
+
+        for(char letra : mensagem_str.toCharArray())
+        {
+            int posicao = 0;
+
+            for(char caracter : this.chave.toCharArray())
+            {
+                if(letra != caracter)
+                    posicao++;
+                else
+                    break;
+            }
+
+            int count = 0;
+            for(char caracter : this.alfabeto.toCharArray())
+            {
+                if(posicao != count)
+                    count++;
+                else
+                {
+                    mensagem_decifrada += (this.alfabeto).charAt(count);
+                    break;
+                }
+            }
+        }
+
+        return new Mensagem(mensagem_decifrada, mensagem.getNivelSeguranca());
+    }
 }
