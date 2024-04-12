@@ -9,6 +9,7 @@ public class Agente {
     
     public Agente(AgenciaInteligencia agenciaInteligencia){
         this.agenciaInteligencia = agenciaInteligencia;
+        this.pais = agenciaInteligencia.getPais();
     }
 
     public NivelHierarquico getNivelHierarquico(){

@@ -1,7 +1,7 @@
-public class AgenciaInteligencia{
-    
+public class AgenciaInteligencia
+{
     private String nome;
-    private String chave;
+    private String chave = "";
     private String alfabeto = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     private Pais pais;
 
@@ -18,9 +18,12 @@ public class AgenciaInteligencia{
     public Pais getPais() { return pais; }
 
     public void setNome(String nome) { this.nome = nome; }
-    public void setChave(String chave, Agente agente) 
+    public void setChave(String chave, Agente agente)
     {
-        this.chave = chave; 
+        if(agente.getPais().getNome() == this.pais.getNome() && agente.getNivelHierarquico() == NivelHierarquico.COMANDO && chave.length() == 26)
+        {
+            this.chave = chave;
+        }
     }
     public void setAlfabeto(String alfabeto) { this.alfabeto = alfabeto; }
     public void setPais(Pais pais) { this.pais = pais; }
@@ -28,6 +31,12 @@ public class AgenciaInteligencia{
     // Methods
     public Mensagem cifrarMensagem(Mensagem mensagem, Agente agente) 
     {
+        if(agente.getAgenciaInteligencia().getNome() != this.nome)
+            return new Mensagem("", mensagem.getNivelSeguranca());
+        
+        if(this.chave == "")
+            return new Mensagem("", mensagem.getNivelSeguranca());
+
         String mensagem_str =  mensagem.getTexto();
         String mensagem_cifrada = "";
 
@@ -59,9 +68,14 @@ public class AgenciaInteligencia{
         return new Mensagem(mensagem_cifrada, mensagem.getNivelSeguranca());
     }
 
-    
     public Mensagem decifrarMensagem(Mensagem mensagem, Agente agente)
     {
+        if(agente.getAgenciaInteligencia().getNome() != this.nome)
+            return new Mensagem("", mensagem.getNivelSeguranca());
+        
+        if(this.chave == "")
+            return new Mensagem("", mensagem.getNivelSeguranca());
+    
         String mensagem_str =  mensagem.getTexto();
         String mensagem_decifrada = "";
 
